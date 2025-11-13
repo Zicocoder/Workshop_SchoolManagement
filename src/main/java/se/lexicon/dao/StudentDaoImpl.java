@@ -3,6 +3,7 @@ package se.lexicon.dao;
 import jdk.internal.org.commonmark.node.Link;
 import se.lexicon.model.Student;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class StudentDaoImpl implements StudentDao{
                 return student;
             }
         }
-        throw new RuntimeException("Student not found");
+        return null;
 
     }
 
@@ -40,22 +41,28 @@ public class StudentDaoImpl implements StudentDao{
             return studentFound;
         }
         else {
-            throw new RuntimeException("Student not found");
+            return null;
         }
 
     }
     @Override
     public Student findByid(int id) {
-        return null;
-    }
+        for (Student student : students) {
+            if (student.getId() == id){
+                return student;
+            }
+
+            }
+       return null;
+        }
 
     @Override
     public List<Student> findAll() {
-        return List.of();
+        return students;
     }
 
     @Override
     public boolean delete(Student student) {
-        return false;
+        return students.removeIf(o -> o.equals(student));
     }
 }
