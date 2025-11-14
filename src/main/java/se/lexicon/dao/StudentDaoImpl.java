@@ -1,60 +1,59 @@
 package se.lexicon.dao;
 
-import jdk.internal.org.commonmark.node.Link;
 import se.lexicon.model.Student;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class StudentDaoImpl implements StudentDao{
+public class StudentDaoImpl implements StudentDao {
 
-    private List<Student>  students = new LinkedList<>();
+    private List<Student> students = new LinkedList<>();
 
     @Override
     public Student save(Student student) {
+        if (students.contains(student)) {
+            throw new RuntimeException("Student already added");
+        } else if (student == null) {
+            throw new IllegalArgumentException("Student is null");
+        }
         students.add(student);
         return student;
     }
 
     @Override
     public Student findByEmail(String email) {
-        for (Student student : students){
-            if (student.getEmail().equalsIgnoreCase(email)){
+        for (Student student : students) {
+            if (student.getEmail().equalsIgnoreCase(email)) {
                 return student;
             }
         }
         return null;
-
     }
 
     @Override
     public List<Student> findByName(String name) {
         List<Student> studentFound = new LinkedList<>();
         for (Student student : students) {
-            if (student.getEmail().equalsIgnoreCase(name)) {
+            if (student.getName().equalsIgnoreCase(name)) {
                 studentFound.add(student);
-
             }
         }
-        if (!studentFound.isEmpty()){
+        if (!studentFound.isEmpty()) {
             return studentFound;
-        }
-        else {
+        } else {
             return null;
         }
-
     }
+
     @Override
-    public Student findByid(int id) {
+    public Student findById(int id) {
         for (Student student : students) {
-            if (student.getId() == id){
+            if (student.getId() == id) {
                 return student;
             }
-
-            }
-       return null;
         }
+        return null;
+    }
 
     @Override
     public List<Student> findAll() {
@@ -63,6 +62,9 @@ public class StudentDaoImpl implements StudentDao{
 
     @Override
     public boolean delete(Student student) {
-        return students.removeIf(o -> o.equals(student));
+        if (student == null) {
+            throw new IllegalArgumentException("Student is null");
+        }
+        return students.remove(student);
     }
 }

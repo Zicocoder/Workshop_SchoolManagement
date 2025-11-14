@@ -1,16 +1,15 @@
 package se.lexicon.dao;
 
-import jdk.internal.org.commonmark.node.Link;
 import se.lexicon.model.Course;
 import se.lexicon.model.Student;
 
 import java.time.LocalDate;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class CourseDaoImpl implements CourseDao {
-    private List<Course>  courses = new LinkedList<>();
+
+    private List<Course> courses = new LinkedList<>();
 
     @Override
     public Course save(Course course) {
@@ -21,26 +20,24 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public Course findById(int id) {
         for (Course course : courses) {
-            if (course.getId() == id){
+            if (course.getId() == id) {
                 return course;
             }
-
         }
         return null;
     }
 
     @Override
     public List<Course> findByName(String name) {
-        List<Course> courseFound =new LinkedList<>();
-        for(Course course:courses){
-            if(course.getCourseName().equalsIgnoreCase(name)){
+        List<Course> courseFound = new LinkedList<>();
+        for (Course course : courses) {
+            if (course.getCourseName().equalsIgnoreCase(name)) {
                 courseFound.add(course);
             }
         }
-        if(!courseFound.isEmpty()){
+        if (!courseFound.isEmpty()) {
             return courseFound;
-        }
-        else{
+        } else {
             return null;
         }
     }
@@ -59,6 +56,7 @@ public class CourseDaoImpl implements CourseDao {
             return null;
         }
     }
+
     @Override
     public List<Course> findAll() {
         return courses;
@@ -66,6 +64,6 @@ public class CourseDaoImpl implements CourseDao {
 
     @Override
     public boolean delete(Course course) {
-            return courses.removeIf(o -> o.equals(course));
-        }
+        return courses.remove(course);
+    }
 }
